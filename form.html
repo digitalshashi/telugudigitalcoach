@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telugu Digital Coach - Checkout</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f7;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .checkout-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            overflow: hidden;
+        }
+        
+        .checkout-header {
+            background-color: #06152e;
+            color: white;
+            padding: 25px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .logo img {
+            width: 100px;
+            height: auto;
+        }
+        
+        .course-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .price-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .current-price {
+            font-size: 1.25rem;
+            font-weight: bold;
+        }
+        
+        .original-price {
+            text-decoration: line-through;
+            color: #a0a0a0;
+            font-size: 0.9rem;
+        }
+        
+        .gst-text {
+            font-size: 0.8rem;
+            margin-top: 3px;
+            color: #a0a0a0;
+        }
+        
+        .checkout-form {
+            padding: 25px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .form-group label .required {
+            color: #e74c3c;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 0.95rem;
+        }
+        
+        .phone-input {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .country-code {
+            padding: 0 10px;
+            background-color: #f9f9f9;
+            display: flex;
+            align-items: center;
+            border-right: 1px solid #ddd;
+            height: 100%;
+        }
+        
+        .country-code img {
+            width: 20px;
+            margin-right: 5px;
+        }
+        
+        .phone-number {
+            flex: 1;
+            border: none;
+            padding: 12px 15px;
+            font-size: 0.95rem;
+        }
+        
+        .phone-number:focus {
+            outline: none;
+        }
+        
+        .whatsapp-note {
+            display: flex;
+            align-items: center;
+            margin-top: 8px;
+            font-size: 0.75rem;
+            color: #666;
+        }
+        
+        .whatsapp-note img {
+            width: 16px;
+            margin-right: 5px;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        
+        .checkbox-group input {
+            width: 18px;
+            height: 18px;
+        }
+        
+        .checkbox-group label {
+            font-size: 0.9rem;
+            margin-bottom: 0;
+            font-weight: normal;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: #06152e;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .submit-btn:hover {
+            background-color: #0a2450;
+        }
+        
+        .terms {
+            text-align: center;
+            font-size: 0.75rem;
+            color: #888;
+            margin-top: 15px;
+        }
+        
+        .terms a {
+            color: #666;
+            text-decoration: none;
+        }
+        
+        .terms a:hover {
+            text-decoration: underline;
+        }
+        
+        .footer {
+            background-color: #06152e;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+        }
+        
+        .secure-badge {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 5px;
+        }
+        
+        .secure-badge img {
+            height: 20px;
+        }
+        
+        .copyright {
+            font-size: 0.75rem;
+            color: #a0a0a0;
+        }
+        
+        /* Toast notification styles */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            border-radius: 4px;
+            color: white;
+            font-weight: 500;
+            z-index: 9999;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            font-size: 0.9rem;
+        }
+        
+        .toast-error {
+            background-color: #e74c3c;
+        }
+        
+        .toast-success {
+            background-color: #2ecc71;
+        }
+        
+        /* Loading spinner for button */
+        .loading-spinner {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 8px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="checkout-container">
+        <div class="checkout-header">
+            <div class="logo">
+                <img src="https://i.imgur.com/YFc47Ix.png" alt="Telugu Digital Coach" style="width: 150px; height: auto;">
+            </div>
+            <div class="course-title">Telugu Digital Coach</div>
+            <div class="price-container">
+                <div class="current-price">Free</div>
+                <div class="original-price">₹1,999.00</div>
+            </div>
+            <div class="gst-text">+ GST</div>
+        </div>
+        
+        <div class="checkout-form" id="checkoutForm">
+            <div class="form-group">
+                <label for="fullName">Full Name <span class="required">*</span></label>
+                <input type="text" id="fullName" class="form-control" placeholder="Your Name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email Address <span class="required">*</span></label>
+                <input type="email" id="email" class="form-control" placeholder="example@example.com" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="phone">Mobile Number <span class="required">*</span></label>
+                <div class="phone-input">
+                    <div class="country-code">
+                        <img src="https://flagcdn.com/w20/in.png" alt="India Flag"> +91
+                    </div>
+                    <input type="tel" id="phone" class="phone-number" placeholder="XXXXXXXXXX" required>
+                </div>
+                <div class="whatsapp-note">
+                    <img src="https://i.imgur.com/WIAQPEm.png" alt="WhatsApp Icon"> You will get updates on your WhatsApp
+                </div>
+            </div>
+            
+            <div class="checkbox-group">
+                <input type="checkbox" id="gstNumber">
+                <label for="gstNumber">I have a GST number</label>
+            </div>
+            
+            <button type="button" id="submitBtn" class="submit-btn">Next</button>
+            
+            <div class="terms">
+                By proceeding you agree to our <a href="#">Terms</a>, <a href="#">Privacy</a> & <a href="#">Refund Policy</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <div class="secure-badge">
+            <img src="https://i.imgur.com/Saa7TpP.png" alt="Razorpay Secure" style="height: 25px;"> 100% Secure Transaction
+        </div>
+        <div class="copyright">
+            © 2025 Telugu Digital Coach. All rights reserved.
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('submitBtn').addEventListener('click', function() {
+            // Get form values
+            const fullName = document.getElementById('fullName').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const hasGST = document.getElementById('gstNumber').checked;
+            
+            // Validate form
+            if (!fullName || !email || !phone) {
+                showToast('Please fill all required fields', 'error');
+                return;
+            }
+            
+            // Basic email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showToast('Please enter a valid email address', 'error');
+                return;
+            }
+            
+            // Basic phone validation
+            const phoneRegex = /^\d{10}$/;
+            if (!phoneRegex.test(phone)) {
+                showToast('Please enter a valid 10-digit phone number', 'error');
+                return;
+            }
+            
+            // Prepare data for submission
+            const formData = {
+                fullName: fullName,
+                email: email,
+                phone: '+91' + phone,
+                hasGST: hasGST,
+                course: 'Telugu Digital Coach'
+            };
+            
+            // Show loading state
+            document.getElementById('submitBtn').innerHTML = '<span class="loading-spinner"></span> Processing...';
+            document.getElementById('submitBtn').disabled = true;
+            
+            // Send data to Google Sheet
+            fetch('https://script.google.com/macros/s/AKfycbwOB7wx98hPlM6Uoh1EppPajdB17AXqChdiWfuLrzfHJnPbmPJZExqA1ic5g7ynOAVJNA/exec', {
+                method: 'POST',
+                mode: 'no-cors', // Important for cross-origin requests to Google Scripts
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => {
+                console.log('Response received');
+                // When using mode: 'no-cors', we won't be able to read the response content
+                // So we'll assume success if we got to this point
+                
+                showToast('Registration successful!', 'success');
+                
+                // Send confirmation email (this would normally be done by the server)
+                console.log('Sending confirmation email to', email);
+                
+                // Send WhatsApp notification (this would normally be done by the server)
+                console.log('Sending WhatsApp message to +91' + phone);
+                
+                // Reset form
+                document.getElementById('fullName').value = '';
+                document.getElementById('email').value = '';
+                document.getElementById('phone').value = '';
+                document.getElementById('gstNumber').checked = false;
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                showToast('There was an error submitting your form. Please try again.', 'error');
+            })
+            .finally(() => {
+                // Reset button
+                document.getElementById('submitBtn').innerHTML = 'Next';
+                document.getElementById('submitBtn').disabled = false;
+            });
+        });
+        
+        // Toast notification function
+        function showToast(message, type) {
+            // Remove existing toast if present
+            const existingToast = document.getElementById('toast');
+            if (existingToast) {
+                existingToast.remove();
+            }
+            
+            // Create toast element
+            const toast = document.createElement('div');
+            toast.id = 'toast';
+            toast.className = 'toast toast-' + type;
+            toast.textContent = message;
+            
+            // Add to document
+            document.body.appendChild(toast);
+            
+            // Remove after 3 seconds
+            setTimeout(function() {
+                toast.remove();
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
